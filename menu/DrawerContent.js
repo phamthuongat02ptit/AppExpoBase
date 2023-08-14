@@ -62,6 +62,13 @@ export function DrawerContent(props) {
                         />
                         <DrawerItem
                             icon={({ color, size }) => (
+                                <Icon name="ios-home" color={color} size={size} />
+                            )}
+                            label="Lịch sử checkin"
+                            onPress={() => { props.navigation.navigate('HistoryCheckIn') }}
+                        />
+                        <DrawerItem
+                            icon={({ color, size }) => (
                                 <Feather name="user" color={color}
                                     size={size} />
 

@@ -7,6 +7,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { BGCOLORS } from '../common/colors';
 import HomeScreen from '../screens/home/HomeScreen';
 import AddNewAgency from '../screens/agency/AddNewAgency';
+import CategoryAgency from '../screens/agency/CategoryAgency';
+import DMSCheckIn from '../screens/checkin/DMSCheckIn';
+import HistoryCheckIn from '../screens/checkin/HistoryCheckIn';
 import ListTaskScreen from '../screens/list_task/ListTaskScreen';
 import SearchScreen from '../screens/search/SearchScreen';
 import InfoScreen from '../screens/info/InfoScreen';
@@ -36,6 +39,36 @@ const HomeStack = ({navigation}) => {
                 component={AddNewAgency} 
                 options={{
                     title:'Tạo đại lý',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen 
+                name="CategoryAgency" 
+                component={CategoryAgency} 
+                options={{
+                    title:'Danh sách đại lý',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen 
+                name="DMSCheckIn" 
+                component={DMSCheckIn} 
+                options={{
+                    title:'Checkin',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen 
+                name="HistoryCheckIn" 
+                component={HistoryCheckIn} 
+                options={{
+                    title:'Lịch sử checkin',
                     headerLeft: () => (
                         <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
                     )
