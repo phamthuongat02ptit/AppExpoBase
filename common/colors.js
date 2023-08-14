@@ -36,7 +36,7 @@ const BoxColors = {
 //Màu nền app
 const BGCOLORS = {
     BG1: 'white',
-    BG2: '#d90729'
+    BG2: '#4AB2A8'
 }
 
 export { MainColors, TextColors, BoxColors, BGCOLORS };

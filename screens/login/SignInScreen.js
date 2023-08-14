@@ -9,7 +9,7 @@ import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { MainColors, BoxColors } from '../../common/colors';
-import { GetApis } from '../../common/callapi';
+import { GetApiBases } from '../../common/callapi';
 import config from '../../config/appsetting';
 import useDialogBase from '../../hookcustoms/useDialogBase';
 import { AuthContext } from '../../common/context';
@@ -65,7 +65,7 @@ const SignInScreen = ({ navigation }) => {
             }
             
             // Caii API
-            GetApis('Account', 'Login',
+            GetApiBases('Account', 'Login',
                 {
                     appid: config.appid,
                     username: data.username,
