@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { BGCOLORS } from '../common/colors';
 import HomeScreen from '../screens/home/HomeScreen';
+import AddNewAgency from '../screens/agency/AddNewAgency';
 import ListTaskScreen from '../screens/list_task/ListTaskScreen';
 import SearchScreen from '../screens/search/SearchScreen';
 import InfoScreen from '../screens/info/InfoScreen';
@@ -27,6 +28,16 @@ const HomeStack = ({navigation}) => {
                     title:'Trang chủ',
                     headerLeft: () => (
                         <Icon.Button name="ios-menu" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.openDrawer()}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen 
+                name="AddNewAgency" 
+                component={AddNewAgency} 
+                options={{
+                    title:'Tạo đại lý',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
                     )
                 }}
             />

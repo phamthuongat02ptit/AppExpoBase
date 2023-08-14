@@ -29,7 +29,7 @@ let GetApis = async (controller, action, params, timeout) => {
 let PostApis = async (controller, action, params, timeout) => {
     try {
         let res = await axios({
-            url: `${config.APIHOST}/api/${controller}/${action}`,
+            url: `${config.APIHOST}/${controller}/${action}`,
             method: 'POST',
             timeout: timeout,
             headers: {
