@@ -69,6 +69,13 @@ export function DrawerContent(props) {
                         />
                         <DrawerItem
                             icon={({ color, size }) => (
+                                <Icon name="ios-home" color={color} size={size} />
+                            )}
+                            label="Danh mục hàng hóa"
+                            onPress={() => { props.navigation.navigate('ListItem') }}
+                        />
+                        <DrawerItem
+                            icon={({ color, size }) => (
                                 <Feather name="user" color={color}
                                     size={size} />
 

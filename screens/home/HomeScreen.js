@@ -416,7 +416,7 @@ const HomeScreen = ({ navigation, ...props }) => {
                     style={styles.icontop}
                     onPress={() => {
                     setTimeout(() => {
-                        navigation.navigate('Sale_OrderDetailTab', {
+                        navigation.navigate('Sale_OrderDetail', {
                         screen: 'Sale_OrderDetail',
                         params: {
                             preScreen: 'Home'
@@ -446,7 +446,7 @@ const HomeScreen = ({ navigation, ...props }) => {
                     style={styles.icontop}
                     onPress={() => {
                     setTimeout(() => {
-                        navigation.navigate('Sale_OrderTab');
+                        navigation.navigate('Sale_Order');
                     }, 1)
                     }}
                 >

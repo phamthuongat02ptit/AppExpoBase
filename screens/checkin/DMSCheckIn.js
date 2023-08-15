@@ -294,7 +294,7 @@ const DMSCheckIn = (props) => {
     const saveCheckIn = async (objUpload) => {
 
         try {
-            const res = await QueryPost("api/DMSV2/SaveCheckInData",
+            const res = await PostApis("api/DMSV2/SaveCheckInData","",
                 {
                     cmp_wwn: agencyId,
                     latitude: location.latitude,

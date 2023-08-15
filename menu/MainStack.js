@@ -10,6 +10,9 @@ import AddNewAgency from '../screens/agency/AddNewAgency';
 import CategoryAgency from '../screens/agency/CategoryAgency';
 import DMSCheckIn from '../screens/checkin/DMSCheckIn';
 import HistoryCheckIn from '../screens/checkin/HistoryCheckIn';
+import Sale_Order from '../screens/sale/Sale_Order';
+import Sale_OrderDetail from '../screens/sale/Sale_OrderDetail';
+import ListItemScreen from "../screens/items/ListItem";
 import ListTaskScreen from '../screens/list_task/ListTaskScreen';
 import SearchScreen from '../screens/search/SearchScreen';
 import InfoScreen from '../screens/info/InfoScreen';
@@ -69,6 +72,36 @@ const HomeStack = ({navigation}) => {
                 component={HistoryCheckIn} 
                 options={{
                     title:'Lịch sử checkin',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen 
+                name="Sale_Order" 
+                component={Sale_Order} 
+                options={{
+                    title:'Đơn hàng',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen 
+                name="Sale_OrderDetail" 
+                component={Sale_OrderDetail} 
+                options={{
+                    title:'Đặt hàng',
+                    headerLeft: () => (
+                        <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
+                    )
+                }}
+            />
+            <Stack.Screen
+                name="ListItem"
+                component={ListItemScreen}
+                options={{
+                    title:'Danh sách hàng hóa',
                     headerLeft: () => (
                         <Icon.Button name="chevron-back" size={25} backgroundColor={BGCOLORS.BG2} onPress={() => {navigation.navigate(HomeScreen)}}></Icon.Button>
                     )
@@ -146,5 +179,42 @@ const InfoStack = ({navigation}) => {
         </Stack.Navigator>
     );
 };
+
+// Danh mục hàng hóa
+// const ListItemStack = ({ navigation }) => {
+//   return (
+//     <HomeStack.Navigator
+//       screenOptions={{
+//         headerStyle: {
+//           backgroundColor: "#009387",
+//         },
+//         headerTintColor: "#fff",
+//         headerTitleStyle: {
+//           fontWeight: "bold",
+//         },
+//       }}
+//     >
+//       <HomeStack.Screen
+//         name="ListItem"
+//         component={ListItemScreen}
+//         options={{
+//           title: "Danh mục hàng hóa",
+//           headerLeft: () => (
+//             <AntDesign
+//               name="arrowleft"
+//               style={{ marginLeft: 10 }}
+//               onPress={() => navigation.goBack()}
+//               size={25}
+//               color="#fff"
+//             />
+//           ),
+//           headerRightContainerStyle: {
+//             marginRight: 10,
+//           },
+//         }}
+//       />
+//     </HomeStack.Navigator>
+//   );
+// };
 
 export { HomeStack, ListTaskStack, SearchStack, InfoStack };

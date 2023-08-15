@@ -200,7 +200,7 @@ const AddNewAgency = ({ navigation, route }) => {
             var checkUpload = await uploadFile(Id);
             if (!checkUpload)
                 return;
-            const res = await QueryPost("api/DMSV2/SaveSHMarAgencyForUser", { loginUser: curUser }, formBody);
+            const res = await PostApis("api/DMSV2/SaveSHMarAgencyForUser", "", { loginUser: curUser }, formBody);
 
             if (!res.IsOK) {
                 LoadingSprin(false);
