@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Pressable, TextInput, Text } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { StyleSheet, View, Pressable, TextInput, Text, TouchableOpacity } from "react-native";
+import { TextInput as TextInputPar } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from "moment";
 
 const styles = StyleSheet.create({
@@ -40,50 +41,39 @@ export default function SHDatePicker({
   onConfirm,
   ...props
 }) {
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-    const showDatePicker = () => {
-      setDatePickerVisibility(true);
-    };
-  
-    const hideDatePicker = () => {
-      setDatePickerVisibility(false);
-    };
-  
-    const handleConfirm = (date) => {
-        onConfirm(date);
-        hideDatePicker();
-    };
-  return (
-    <View style={[styles.action, styles.fieldSet]}>
-      <Text style={styles.legend}>{label}</Text>
-      <DateTimePickerModal
-        minimumDate={minimumDate}
-        maximumDate={maximumDate}
-        confirmTextIOS="Xác nhận"
-        isHeaderVisibleIOS={true}
-        cancelTextIOS="Hủy"
-        headerTextIOS="Chọn tháng xem"
-        isVisible={isDatePickerVisible}
-        date={new Date(value ? value : moment())}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-      <Pressable
-        width="100%"
-        onPress={() => {
-            showDatePicker();
-        }}
-      >
-        <View style={{ width: "100%" }} pointerEvents="none">
-          <TextInput
-            style={{width:'100%', height:20}}
-            value={moment(value).format(formatDate)}
-            padding={0}
-          />
+    const [date, setDate] = useState(new Date());
+    const [show, setShow] = useState(false);
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+        onConfirm(currentDate);
+      };
+      const showDatepicker = () => {
+        setShow(true);
+      };
+      return (
+        <View>
+            <TouchableOpacity onPress={showDatepicker} style={{height:50, width:'90%'}}><TextInputPar
+                mode="outlined"
+                style={styles.inputContainerStyle}
+                dense
+                disabled
+                label={label}
+                placeholder="chọn ngày"
+                value={moment(date).format('DD-MM-YYYY')}
+                onChangeText={(outlinedDenseText) =>{ } }
+            /></TouchableOpacity>
+            
+            {show && (
+                <DateTimePicker
+                    value={date}
+                    mode='date'
+                    display="default"  
+                    // default-calendar
+                    onChange={onChange}
+                    />
+            )}
         </View>
-      </Pressable>
-    </View>
-  );
+      );
 }

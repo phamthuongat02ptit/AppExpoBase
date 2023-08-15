@@ -201,7 +201,7 @@ const DMSCheckIn = (props) => {
                 }
             }
             let result = await ImagePicker.launchCameraAsync({ allowsEditing: false, aspect: [4, 3], quality: 1, });
-            if (!result.cancelled) {
+            if (!result.canceled) {
                 result.UrlDoc = Platform.OS === "android" ? result.uri : result.uri.replace("file://", "");
                 setImages(result.uri);
             }
