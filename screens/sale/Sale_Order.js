@@ -1,4 +1,4 @@
-import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
+import { Entypo, Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useIsFocused, useRoute } from "@react-navigation/native";
 import { Alert, Dimensions, LogBox, Pressable, Text, StyleSheet, View, TouchableOpacity, InteractionManager, FlatList, TextInput } from "react-native"; 
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -6,6 +6,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import SHDatePickerLabel from "../../components/SHDatePickerLabel";
 import SHSelectBoxLabel from "../../components/SHSelectBoxLabel";
+import useDialogBase from '../../hookcustoms/useDialogBase';
 
 //Custom function
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -132,6 +133,7 @@ const FilterContentComponent = React.memo(
 );
 
 const ContentInfo = ({ lstInfo, setlstInfo, item, ...props }) => {
+    const { showDialog, hideDialog, DialogBase } = useDialogBase();
   const ShowAlert = (mess, isSuccess) => {
     // toast.show({
     //   duration: 3000,
@@ -194,145 +196,50 @@ const ContentInfo = ({ lstInfo, setlstInfo, item, ...props }) => {
       { cancelable: false, userInterfaceStyle: true },
     );
   }
+  let objColor = [
+    { key: "WAIT", label: "Chờ Duyệt", color:'blue', backColor:'#FAFFEB' },
+    { key: "APPROVAL", label: "Đã Duyệt", color:'#079637', backColor:'#E5FFE2' },
+    { key: "REJECT", label: "Từ Chối", color:'#FB0000', backColor:'#FFE2E2' },
+  ].find(e => e.key === item.OrderStatus);
+  let strColor = objColor.color;
+  let strBackColor = objColor.backColor;
   return (
-    /**TODO Click Detail */
-    <Pressable
-      onPress={() => {
-        setTimeout(() => {
-          props.navigation.navigate('Sale_OrderDetailTab', {
-            screen: 'Sale_OrderDetail',
-            params: {
-              preScreen: 'Sale_Order',
-              MasterId: item.Id,
-              OrderNumber: item.OrderNumber
-            }
-          });
-        }, 1);
-      }}
-    >
-      <View
-        borderTopWidth={1}
-        mx="2"
-        py="2"
-        borderStyle={"dotted"}
-        borderBottomColor="muted.200"
-      >
-        <View mt={1} justifyContent="space-between">
-          <View alignItems="center">
-            <View
-              trigger={(triggerProps) => {
-                return (
-                  <Pressable {...triggerProps}>
-                    <View
-                      {...triggerProps}
-                      borderRadius={5}
-                      colorScheme={
-                        item.OrderStatus == "REJECT"
-                          ? "danger"
-                          : item.OrderStatus == "APPROVAL"
-                            ? "success"
-                            : "info"
-                      }
-                      variant={"outline"}
-                    >
-                      {`${item.OrderNumber} ${item.strOrderStatus} ` +
-                        `- ${moment(item.OrderDate).format("DD/MM/YYYY")}`}
-                    </View>
-                  </Pressable>
-                );
-              }}
-            >
-              <View accessibilityLabel="Delete Customerd" w="56">
-                <View />
-                <View />
-                <View>{item.OrderNumber}</View>
-                <View>
-                  <View>
-                    <Text color={refColorText.current} fontSize="13">
-                      {`Ngày dự kiến giao: ${moment(item.ExpectedDate).format(
-                        "DD/MM/YYYY"
-                      )}`}
-                    </Text>
-                  </View>
-                  {item.ApprovalBy ? (
-                    <>
-                      <View>
-                        <Text color={refColorText.current} fontSize="12">
-                          {item.OrderStatus == "APPROVAL" ? "Duyệt" : "Từ Chối"}
-                          : {item.ApprovalBy}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text color={refColorText.current} fontSize="12">
-                          Ngày{" "}
-                          {item.OrderStatus == "APPROVAL" ? "duyệt" : "từ chối"}
-                          : {moment(item.ApprovalDate).format("DD/MM/YYYY")}
-                        </Text>
-                      </View>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  {item.ReasonReject ? (
-                    <>
-                      <View>
-                        <Text color={refColorText.current} fontSize="12">
-                          Lý do từ chối: {item.ReasonReject}
-                        </Text>
-                      </View>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-
-                  <View>
-                    <Text
-                      color={refColorText.current}
-                      _dark={{
-                        color: "warmGray.200",
-                      }}
-                    >
-                      Ghi chú: {item.Note}
-                    </Text>
-                  </View>
-                </View>
-              </View>
+    <View style={{backgroundColor: strBackColor, margin: 5, padding: 5}}>
+        <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => { props.navigation.navigate('Sale_OrderDetail', {
+                preScreen: 'Sale_Order',
+                MasterId: item.Id,
+                OrderNumber: item.OrderNumber
+          }); }}
+        >
+            <View style={styles.styleRowItem}>
+                <View style={{flex: 5}}>
+                    <TouchableOpacity onPress={() => { showDialog({ 
+                            title: item.OrderNumber, 
+                            content: <View>
+                                        <Text>Ngày dự kiến giao: {moment(item.ExpectedDate).format("DD/MM/YYYY")}</Text>
+                                        <Text>Duyệt bởi: {item.ApprovalBy}</Text>
+                                        <Text>Ngày duyệt: {moment(item.ApprovalDate).format("DD/MM/YYYY")}</Text>
+                                        <Text>Ghi chú: {item.Note}</Text>
+                                     </View>, 
+                            bgcolor: strBackColor
+                            }); }}>
+                        <Text style={{color:strColor, fontWeight:'bold', fontSize:14}}>{item.OrderNumber} {item.strOrderStatus} - {moment(item.OrderDate).format("DD/MM/YYYY")}</Text>
+                    </TouchableOpacity></View>
+                <View style={{flex: 1,alignItems:'flex-end'}}><TouchableOpacity onPress={() => { alertConfirmDelete(item.OrderNumber) }}><MaterialIcons name="delete" size={24} color="red" /></TouchableOpacity></View>
             </View>
-          </View>
-          <Pressable
-            onPress={() => {
-              alertConfirmDelete(item.OrderNumber);
-            }}
-          >
-            <View alignItems="center">
-              <Feather name="trash-2" size={24} color="red" />
+            <View style={styles.styleRowItem}>
+                <View style={{flex: 3, flexDirection:'row', alignItems:'center'}}><Text style={{fontWeight:'bold'}}>{item.AgencyName}</Text></View>
+                <View style={{flex: 1, flexDirection:'row', alignItems:'center'}}><Text style={{fontWeight:'bold'}}> {"O:" + ConvertToVnd(item.TotalAmount ? item.TotalAmount : 0)}</Text></View>
             </View>
-          </Pressable>
-        </View>
-        <View justifyContent="space-between">
-          <View width={"70%"}>
-            <Text fontSize={13} bold>
-              {item.AgencyName}
-            </Text>
-          </View>
-          <View alignItems={"flex-end"} width={"30%"}>
-            <Text color={"coolGray.500"}>
-              {"O:" + ConvertToVnd(item.TotalAmount ? item.TotalAmount : 0)}
-            </Text>
-          </View>
-        </View>
-        <View justifyContent="space-between">
-          <View width={"70%"}>
-            <Text fontSize={12}>{item.cmp_name}</Text>
-          </View>
-          <View alignItems={"flex-end"} width={"30%"}>
-            <Text color={"green.600"}>
-              {"F:" + ConvertToVnd(item.ConfirmAmount ? item.ConfirmAmount : 0)}
-            </Text>
-          </View>
-        </View>
-      </View>
-    </Pressable>
+            <View style={styles.styleRowItem}>
+                <View style={{flex: 3, flexDirection:'row', alignItems:'center'}}><Text style={styles.textSmall}>{item.cmp_name}</Text></View>
+                <View style={{flex: 1, flexDirection:'row', alignItems:'center'}}><Text style={{fontWeight:'bold', color:'green'}}> {"F:" + ConvertToVnd(item.ConfirmAmount ? item.ConfirmAmount : 0)}</Text></View>
+            </View>
+            <DialogBase />
+        </TouchableOpacity>
+    </View>
   );
 };
 
@@ -461,7 +368,7 @@ const OrderListScreenNavigation = ({ navigation, ...props }) => {
       if (Isload) LoadingSprin(true);
       let userStorage = await AsyncStorage.getItem("userInfo");
       let curUser = JSON.parse(userStorage);
-      var result = await QueryGet("/DMS_OrderMaster/GetDMS_OrderMobile", {
+      var result = await GetApis("/DMS_OrderMaster/GetDMS_OrderMobile", "", {
         userName: curUser.UserName,
         viewDate: viewDate.toISOString(),
         pageNumber: -1,
@@ -515,3 +422,44 @@ const OrderListScreenNavigation = ({ navigation, ...props }) => {
 };
 
 export default OrderListScreenNavigation;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    containerSearch: {
+        backgroundColor: '#d02860'
+    },
+    boxSearch: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginHorizontal: 20,
+      marginVertical: 10
+    },
+    searchInput: {
+      flex: 1,
+      height: 40,
+      paddingHorizontal: 10,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 5,
+      backgroundColor: 'white'
+    },
+    searchButton: {
+      marginLeft: 10,
+      backgroundColor: '#0093FE',
+      borderRadius: 5,
+      padding: 10,
+    },
+    searchButtonText: {
+      color: 'white',
+      fontWeight: 'bold',
+    },
+    styleRowItem: {
+        flexDirection:'row', flex: 1, marginBottom: 7
+    },
+    textSmall: {
+        fontSize:12
+    }
+
+  });

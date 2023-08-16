@@ -22,7 +22,7 @@ const db = SQLite.openDatabase("db.MDS");
 const OrderDetail = ({ route, navigation, ...props }) => {
     const [text, onChangeText] = useState('');
     const [isAddPartVisibleV2, setIsAddPartVisibleV2] = useState(false);//biến để hiển thị popup thêm linh kiện V2
-    const [quantity, setQuantity] = useState("1"); //số lượng
+    const [quantity, setQuantity] = useState(1); //số lượng
     const [isLstPartVisible, setIsLstPartVisible] = useState(false);//biến để hiển thị popup danh sách linh kiện
     const [listItemDetails, setListItemDetails] = useState([]); //danh sách tất cả linh kiện
     const [cacheListItemDetails, setCacheListItemDetails] = useState([]); //danh sách tất cả linh kiện
@@ -334,8 +334,8 @@ const OrderDetail = ({ route, navigation, ...props }) => {
                             <TextInput
                                 style={{ padding: 5, fontSize: 15, color: '#515050' }}
                                 onChangeText={(val) => { OnChangeQuantity(item, val) }}
-                                value={item.quantity + ''}
-                                defaultValue={item.quantity + ''}
+                                value={'' + item.quantity}
+                                defaultValue={'' + item.quantity}
                                 keyboardType="numeric"
                             />
                         </View>
@@ -349,8 +349,8 @@ const OrderDetail = ({ route, navigation, ...props }) => {
                         <TextInput
                             style={{ borderWidth: 1, padding: 5, borderRadius: 5, borderColor: '#d8d8d8', width: '100%', fontSize: 15, color: '#515050' }}
                             onChangeText={(val) => { OnChangePrice(item, val) }}
-                            value={item.price}
-                            defaultValue={item.price + ''}
+                            value={'' + item.price}
+                            defaultValue={'' + item.price}
                             keyboardType="numeric"
                         />
                     </View>
@@ -421,12 +421,14 @@ const OrderDetail = ({ route, navigation, ...props }) => {
                     extraScrollHeight={180}
                     keyboardOpeningTime={1}
                     enableOnAndroid={true}
-                    enableAutomaticScroll={true}>
+                    enableAutomaticScroll={true}
+                    horizontal={true}>
                     <FlatList
                         style={{ paddingTop: 2, paddingBottom: 2 }}
                         data={listChoosePart}
                         renderItem={RenderItemRequestV2}
                         keyExtractor={(item) => item.value}
+                        keyboardShouldPersistTaps="handled"
                     />
                 </KeyboardAwareScrollView>
             </View>
